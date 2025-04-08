@@ -1,103 +1,226 @@
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+async function getLatestPosts() {
+  // 在實際應用中，這裡會從資料庫或 API 獲取數據
+  // 這裡我們使用模擬數據
+  return [
+    {
+      id: 1,
+      title: "Next.js App Router 簡介",
+      excerpt: "了解 Next.js 13+ 中的 App Router 如何工作以及它的優勢。",
+      date: "2025-04-08",
+      author: "Next.js 愛好者",
+      slug: "nextjs-app-router-introduction",
+    },
+    {
+      id: 2,
+      title: "使用 NextAuth.js 實現身份驗證",
+      excerpt: "如何在 Next.js 應用中整合 NextAuth.js 實現用戶身份驗證。",
+      date: "2025-04-07",
+      author: "安全專家",
+      slug: "nextauth-authentication",
+    },
+    {
+      id: 3,
+      title: "Next.js 中的伺服器組件與客戶端組件",
+      excerpt: "深入了解 Next.js 中的伺服器組件和客戶端組件，以及何時使用它們。",
+      date: "2025-04-06",
+      author: "React 大師",
+      slug: "server-client-components",
+    },
+  ];
+}
+
+export default async function Home() {
+  const latestPosts = await getLatestPosts();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* 英雄區塊 */}
+      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl shadow-xl overflow-hidden mb-16">
+        <div className="px-8 py-16 md:px-16 md:py-20 text-white">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            歡迎來到 Next.js 部落格
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 max-w-2xl">
+            這是一個使用 Next.js App Router 和 NextAuth 構建的個人部落格網站。
+            探索 Next.js 13+ 的強大功能！
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link
+              href="/blog"
+              className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-md font-medium text-lg inline-block text-center"
+            >
+              瀏覽文章
+            </Link>
+            <Link
+              href="/about"
+              className="bg-transparent text-white border border-white hover:bg-white/10 px-6 py-3 rounded-md font-medium text-lg inline-block text-center"
+            >
+              關於我
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </div>
+
+      {/* 最新文章區塊 */}
+      <div className="mb-16">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold">最新文章</h2>
+          <Link
+            href="/blog"
+            className="text-blue-600 hover:text-blue-800 font-medium"
+          >
+            查看全部 →
+          </Link>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {latestPosts.map((post) => (
+            <div
+              key={post.id}
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="p-6">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  {post.date} · {post.author}
+                </p>
+                <h3 className="text-xl font-bold mb-2">
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+                  >
+                    {post.title}
+                  </Link>
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {post.excerpt}
+                </p>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+                >
+                  閱讀更多 →
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 功能區塊 */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold mb-8 text-center">Next.js App Router 特色</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          <FeatureCard
+            title="伺服器組件"
+            description="使用 React 伺服器組件減少客戶端 JavaScript 並提高性能。"
+            icon={<ServerIcon />}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <FeatureCard
+            title="路由嵌套"
+            description="基於文件系統的路由支持嵌套佈局和頁面組織。"
+            icon={<RouteIcon />}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <FeatureCard
+            title="資料獲取"
+            description="簡化的資料獲取方法，支持伺服器端渲染和增量靜態再生。"
+            icon={<DataIcon />}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </div>
+
+      {/* CTA 區塊 */}
+      <div className="bg-gray-100 dark:bg-gray-700 rounded-xl p-8 md:p-12 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">
+          準備好開始使用 Next.js App Router 了嗎？
+        </h2>
+        <p className="text-lg mb-6 max-w-2xl mx-auto">
+          探索這個示例專案，學習如何使用 Next.js 13+ 的新功能構建現代 Web 應用程序。
+        </p>
+        <Link
+          href="/tutorial"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium text-lg inline-block"
+        >
+          查看教學
+        </Link>
+      </div>
     </div>
+  );
+}
+
+function FeatureCard({
+  title,
+  description,
+  icon,
+}: {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      <div className="text-blue-600 dark:text-blue-400 mb-4">{icon}</div>
+      <h3 className="text-xl font-bold mb-2">{title}</h3>
+      <p className="text-gray-600 dark:text-gray-300">{description}</p>
+    </div>
+  );
+}
+
+function ServerIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-8 h-8"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"
+      />
+    </svg>
+  );
+}
+
+function RouteIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-8 h-8"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
+      />
+    </svg>
+  );
+}
+
+function DataIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-8 h-8"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+      />
+    </svg>
   );
 }
